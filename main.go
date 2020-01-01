@@ -17,5 +17,8 @@ func main() {
 
 	fmt.Println("Server started at http://localhost:8080/")
 	http.ListenAndServe(":8080", nil)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 72a99602a3c30122c49eed8c97ceea410624ac61
 }
