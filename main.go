@@ -15,5 +15,6 @@ func main() {
 		fmt.Fprintf(w, "Hello %s\n", name)
 	})
 
-	http.ListenAndServe(":9990", nil)
+	fmt.Println("Server started at http://localhost:8080/")
+	http.ListenAndServe(":8080", nil)
 }
