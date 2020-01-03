@@ -5,11 +5,13 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
+	"gopkg.in/tylerb/graceful.v1"
 )
 
 var db *gorm.DB
@@ -93,13 +95,15 @@ func handleRequest(db *gorm.DB) {
 	e := echo.New()
 
 	e.GET("/", getHome(db))
-	e.GET("/people/", getPeople(db))
+	e.GET("/people", getPeople(db))
 	e.GET("/people/:id", getPerson(db))
 	e.POST("/people", createPerson(db))
 	e.PUT("/people/:id", updatePerson(db))
 	e.DELETE("/people/:id", deletePerson(db))
 
-	e.Logger.Fatal(e.Start(":8080"))
+	port := os.Args[1]
+	e.Server.Addr = ":" + port
+	graceful.ListenAndServe(e.Server, 5*time.Second)
 }
 
 func initialMigration(db *gorm.DB) {
